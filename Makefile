@@ -13,10 +13,10 @@ clean:
 	\rm -rf .stack-work $(HS_BIN)
 
 python:
-	$(PYTHON) qs.py
+	@$(PYTHON) qs.py
 
 haskell: $(HS_BIN)
-	$(HS_BIN)
+	@$(HS_BIN)
 
 $(HS_BIN): src/*.hs
 	stack build $(STACK_OPTIONS) $(STACK_PROJ):exe:$(EXE)

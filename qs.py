@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3 -- -O
 import random
 import sys
 sys.setrecursionlimit(10000)
