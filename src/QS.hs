@@ -61,7 +61,10 @@ quicksort array start end partition comparisons = when (start < end) $ do
     quicksort array start i   partition comparisons
     quicksort array (i+1) end partition comparisons
 
-quicksort' :: Ord a => V.Vector a -> (forall s a. (Ord a) => STVector s a -> Int -> Int -> ST s Int) -> Int
+quicksort' :: Ord a =>
+              V.Vector a ->
+              (forall s a. (Ord a) => STVector s a -> Int -> Int -> ST s Int)
+              -> Int
 quicksort' vector partition = runST $ do
     array  <- thaw vector
     comps  <- newSTRef 0
@@ -71,8 +74,15 @@ quicksort' vector partition = runST $ do
 generateRandomContents :: Int -> IO [Int]
 generateRandomContents n = sequence $ replicate n $ randomRIO (minBound, maxBound::Int)
 
--- vector = fromList contents
+runQS = do
+  contents <- generateRandomContents 1000000
+  let vector = fromList contents
 
--- quicksort' vector partitionFirst
--- quicksort' vector partitionLast
--- quicksort' vector partitionMedian
+      pfResult = quicksort' vector partitionFirst
+      plResult = quicksort' vector partitionLast
+      pmResult = quicksort' vector partitionMedian
+
+      results = [pfResult, plResult, pmResult]
+
+  putStrLn $ "Results: " ++ show results
+
